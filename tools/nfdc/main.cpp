@@ -26,12 +26,22 @@
 #include "available-commands.hpp"
 #include "help.hpp"
 #include "core/version.hpp"
-
+#include <chrono>
+#include <thread>
 #include <iostream>
-
+#include "execute-command.hpp"
+#include "forwarder-general-module.hpp"
+#include <vector>
+#include <string>
 namespace nfd {
 namespace tools {
 namespace nfdc {
+
+void testFunction(){
+	std::cout << "this is test fucntion" << std::endl;
+	ForwarderGeneralModule fgm;
+//	fgm.fetchStatus
+}
 
 static int
 main(int argc, char** argv)
@@ -81,7 +91,28 @@ main(int argc, char** argv)
 } // namespace nfd
 
 int
-main(int argc, char** argv)
+main(int argc, char* argv[])
 {
+// 0 nfdc, 1 status, 2 show,
+// running this file in background , output the function to text file and then put &
+// a nfdc status show > text1 &
+  auto newArg = "status";
+  if (*argv[2]== *newArg) {
+	
+     while(1) {
+	// get the information from forwarder
+	argv[1] = "status";
+	argv[2] = "show";
+	nfd::tools::nfdc::main(argc,argv);
+	
+	//get te information from content store
+	argv[1]= "cs";
+	argv[2]= "info"; 
+	nfd::tools::nfdc::main(argc,argv) ;
+	std::this_thread::sleep_for (std::chrono::seconds(5));
+      }
+	return 0;
+  } 
+
   return nfd::tools::nfdc::main(argc, argv);
 }

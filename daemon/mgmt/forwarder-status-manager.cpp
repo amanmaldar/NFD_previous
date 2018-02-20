@@ -26,7 +26,9 @@
 #include "forwarder-status-manager.hpp"
 #include "fw/forwarder.hpp"
 #include "core/version.hpp"
+#include "core/logger.hpp"
 
+//NFD_LOG_INIT("ContentStore");
 namespace nfd {
 
 static const time::milliseconds STATUS_FRESHNESS(5000);
@@ -54,7 +56,8 @@ ForwarderStatusManager::collectGeneralStatus()
   status.setNPitEntries(m_forwarder.getPit().size());
   status.setNMeasurementsEntries(m_forwarder.getMeasurements().size());
   status.setNCsEntries(m_forwarder.getCs().size());
-
+//  NFD_LOG_INFO("printing cs entries: " << m_forwarder.getCs().size() );
+ // std::cout << "printing cs entries" <<std::endl;
   const ForwarderCounters& counters = m_forwarder.getCounters();
   status.setNInInterests(counters.nInInterests)
         .setNOutInterests(counters.nOutInterests)

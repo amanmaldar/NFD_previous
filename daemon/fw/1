@@ -89,7 +89,7 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
   //auto interestName= interest.getName(); 
 //  buf1 << interestName;
   //std::cout << "interest name: " << interestName;
-  //localhopPacket = (buf1.str())[1]; // if it is 'l', then it is localhop packet
+  localhopPacket = (buf1.str())[1]; // if it is 'l', then it is localhop packet
 
   NFD_LOG_DEBUG("FWD onIncomingInterest face=" << inFace.getId() <<
                 " interest=" << interest.getName() << "localhopPacket: ");
@@ -180,12 +180,9 @@ Forwarder::onContentStoreMiss(const Face& inFace, const shared_ptr<pit::Entry>& 
                               const Interest& interest)
 {
   NFD_LOG_DEBUG("FWD onContentStoreMiss interest=" << interest.getName() << " localhopPacket: " <<  " miss counter: " << m_counters.nCsMisses);
-  std::stringstream buf3;
   auto tmp1 = interest.getName();
-  buf3 << tmp1; 
-   
-NFD_LOG_DEBUG("wowmiss" << (buf3.str())[1] );
-  if ((buf3.str())[1] !='l' && (buf3.str())[16] != 'R' && (buf3.str())[1] != NULL)
+  buf1 << tmp1; 
+  if ((buf1.str())[1] !='l')
   	++m_counters.nCsMisses;
 
   // insert in-record
@@ -197,7 +194,6 @@ NFD_LOG_DEBUG("wowmiss" << (buf3.str())[1] );
   // has NextHopFaceId?
   shared_ptr<lp::NextHopFaceIdTag> nextHopTag = interest.getTag<lp::NextHopFaceIdTag>();
   if (nextHopTag != nullptr) {
-
     // chosen NextHop face exists?
     Face* nextHopFace = m_faceTable.get(*nextHopTag);
     if (nextHopFace != nullptr) {
@@ -219,11 +215,10 @@ Forwarder::onContentStoreHit(const Face& inFace, const shared_ptr<pit::Entry>& p
                              const Interest& interest, const Data& data)
 {
   NFD_LOG_DEBUG("FWD onContentStoreHit interest=" << interest.getName() << " localhopPacket: "<< "hit counter: " << m_counters.nCsHits);
- std::stringstream buf4;
+ 
  auto tmp2 = interest.getName();
-  buf4 << tmp2;
-  NFD_LOG_DEBUG(" wowhitt" << (buf4.str())[1] ); 
-  if ((buf4.str())[1] !='l'&& (buf4.str())[1] != NULL && (buf4.str())[16] != 'R' )
+  buf2 << tmp2; 
+  if ((buf2.str())[1] !='l')
 	  ++m_counters.nCsHits;
 
   data.setTag(make_shared<lp::IncomingFaceIdTag>(face::FACEID_CONTENT_STORE));
@@ -239,7 +234,8 @@ Forwarder::onContentStoreHit(const Face& inFace, const shared_ptr<pit::Entry>& p
 void
 Forwarder::onOutgoingInterest(const shared_ptr<pit::Entry>& pitEntry, Face& outFace, const Interest& interest)
 {
-  //NFD_LOG_DEBUG("FWD onOutgoingInterest face=" << outFace.getId() << " interest=" << pitEntry->getName());
+  NFD_LOG_DEBUG("FWD onOutgoingInterest face=" << outFace.getId() <<
+                " interest=" << pitEntry->getName());
 
   // insert out-record
   pitEntry->insertOrUpdateOutRecord(outFace, interest);
@@ -269,7 +265,7 @@ Forwarder::onInterestReject(const shared_ptr<pit::Entry>& pitEntry)
 void
 Forwarder::onInterestUnsatisfied(const shared_ptr<pit::Entry>& pitEntry)
 {
-  //NFD_LOG_DEBUG("onInterestUnsatisfied interest=" << pitEntry->getName());
+  NFD_LOG_DEBUG("onInterestUnsatisfied interest=" << pitEntry->getName());
 
   // invoke PIT unsatisfied callback
   this->dispatchToStrategy(*pitEntry,
@@ -283,8 +279,8 @@ void
 Forwarder::onInterestFinalize(const shared_ptr<pit::Entry>& pitEntry, bool isSatisfied,
                               ndn::optional<time::milliseconds> dataFreshnessPeriod)
 {
-//  NFD_LOG_DEBUG("onInterestFinalize interest=" << pitEntry->getName() <<
-                //(isSatisfied ? " satisfied" : " unsatisfied"));
+  NFD_LOG_DEBUG("onInterestFinalize interest=" << pitEntry->getName() <<
+                (isSatisfied ? " satisfied" : " unsatisfied"));
 
   // Dead Nonce List insert if necessary
   this->insertDeadNonceList(*pitEntry, isSatisfied, dataFreshnessPeriod, 0);
@@ -298,7 +294,7 @@ void
 Forwarder::onIncomingData(Face& inFace, const Data& data)
 {
   // receive Data
-//  NFD_LOG_DEBUG("FWD onIncomingData face=" << inFace.getId() << " data=" << data.getName());
+  NFD_LOG_DEBUG("FWD onIncomingData face=" << inFace.getId() << " data=" << data.getName());
   data.setTag(make_shared<lp::IncomingFaceIdTag>(inFace.getId()));
   ++m_counters.nInData;
 
@@ -387,7 +383,7 @@ Forwarder::onOutgoingData(const Data& data, Face& outFace)
     NFD_LOG_WARN("onOutgoingData face=invalid data=" << data.getName());
     return;
   }
-  //NFD_LOG_DEBUG("FWD onOutgoingData face=" << outFace.getId() << " data=" << data.getName());
+  NFD_LOG_DEBUG("FWD onOutgoingData face=" << outFace.getId() << " data=" << data.getName());
 
   // /localhost scope control
   bool isViolatingLocalhost = outFace.getScope() == ndn::nfd::FACE_SCOPE_NON_LOCAL &&

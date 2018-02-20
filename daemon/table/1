@@ -114,6 +114,7 @@ Cs::insert(const Data& data, bool isUnsolicited)
   }
 }
 
+// global declaration for CS hit and miss function
 void
 Cs::find(const Interest& interest,
          const HitCallback& hitCallback,

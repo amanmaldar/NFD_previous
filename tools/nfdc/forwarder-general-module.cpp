@@ -25,10 +25,14 @@
 
 #include "forwarder-general-module.hpp"
 #include "format-helpers.hpp"
+#include "core/logger.hpp"
+
 
 namespace nfd {
 namespace tools {
 namespace nfdc {
+
+//NFD_LOG_INIT("ContentStore");
 
 void
 ForwarderGeneralModule::fetchStatus(Controller& controller,
@@ -36,10 +40,14 @@ ForwarderGeneralModule::fetchStatus(Controller& controller,
                                     const Controller::DatasetFailCallback& onFailure,
                                     const CommandOptions& options)
 {
+//  NFD_LOG_INFO("ALEX fetch status");
+  //std::cout << "hello"<< std::endl;
   controller.fetch<ndn::nfd::ForwarderGeneralStatusDataset>(
     [this, onSuccess] (const ForwarderStatus& result) {
       m_status = result;
       onSuccess();
+      //NFD_LOG_INFO(result); // edited`
+//      std::cout << "print result: " << result << std::endl;
     },
     onFailure, options);
 }
@@ -91,30 +99,32 @@ ForwarderGeneralModule::formatItemXml(std::ostream& os, const ForwarderStatus& i
 void
 ForwarderGeneralModule::formatStatusText(std::ostream& os) const
 {
-  os << "General NFD status:\n";
+//  os << "General NFD status:\n";
   this->formatItemText(os, m_status);
 }
 
 void
 ForwarderGeneralModule::formatItemText(std::ostream& os, const ForwarderStatus& item) const
 {
-  os << "               version=" << item.getNfdVersion() << "\n";
-  os << "             startTime=" << text::formatTimestamp(item.getStartTimestamp()) << "\n";
-  os << "           currentTime=" << text::formatTimestamp(item.getCurrentTimestamp()) << "\n";
-  os << "                uptime=" << text::formatDuration(calculateUptime(item), true) << "\n";
+//  os << "               version=" << item.getNfdVersion() << "\n";
+//  os << "             startTime=" << text::formatTimestamp(item.getStartTimestamp()) << "\n";
+//  os << "           currentTime=" << text::formatTimestamp(item.getCurrentTimestamp()) << "\n";
+//  os << "                uptime=" << text::formatDuration(calculateUptime(item), true) << "\n";
 
-  os << "      nNameTreeEntries=" << item.getNNameTreeEntries() << "\n";
-  os << "           nFibEntries=" << item.getNFibEntries() << "\n";
-  os << "           nPitEntries=" << item.getNPitEntries() << "\n";
-  os << "  nMeasurementsEntries=" << item.getNMeasurementsEntries() << "\n";
-  os << "            nCsEntries=" << item.getNCsEntries() << "\n";
+//  os << "      nNameTreeEntries=" << item.getNNameTreeEntries() << "\n";
+//  os << "           nFibEntries=" << item.getNFibEntries() << "\n"; // needed
+//  os << "           nPitEntries=" << item.getNPitEntries() << "\n"; //needed
+//  os << "  nMeasurementsEntries=" << item.getNMeasurementsEntries() << "\n";
+//  os << "            nCsEntries=" << item.getNCsEntries() << "\n"; // needed
 
-  os << "          nInInterests=" << item.getNInInterests() << "\n";
-  os << "         nOutInterests=" << item.getNOutInterests() << "\n";
-  os << "               nInData=" << item.getNInData() << "\n";
-  os << "              nOutData=" << item.getNOutData() << "\n";
-  os << "              nInNacks=" << item.getNInNacks() << "\n";
-  os << "             nOutNacks=" << item.getNOutNacks() << "\n";
+//  os << "          nInInterests=" << item.getNInInterests() << "\n"; //needed 
+ // os << "         nOutInterests=" << item.getNOutInterests() << "\n"; // needed
+//  os << "               nInData=" << item.getNInData() << "\n"; // needed
+ // os << "              nOutData=" << item.getNOutData() << "\n"; // needed
+//  os << "              nInNacks=" << item.getNInNacks() << "\n";
+//  os << "             nOutNacks=" << item.getNOutNacks() << "\n";
+
+os << item.getNCsEntries() <<"#" << item.getNPitEntries() << "#" << item.getNFibEntries() << "#"; 
 }
 
 } // namespace nfdc

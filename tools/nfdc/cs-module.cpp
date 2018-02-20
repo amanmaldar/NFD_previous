@@ -56,12 +56,15 @@ CsModule::formatStatusXml(std::ostream& os) const
 void
 CsModule::formatStatusText(std::ostream& os) const
 {
-  os << "CS information:\n  ";
+//  os << "CS information:\n  ";
   text::ItemAttributes ia;
-  os << ia("nHits") << m_status.getNHits()
-     << ia("nMisses") << m_status.getNMisses()
-     << ia.end();
-  os << '\n';
+  //os << ia("nHits") << m_status.getNHits()
+    // << ia("nMisses") << m_status.getNMisses()
+    // << ia.end();
+  //os << '\n';
+  os << m_status.getNHits() << "#" << m_status.getNMisses() << "#" << "\n";
+  
+
 }
 
 } // namespace nfdc
