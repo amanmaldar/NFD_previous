@@ -40,7 +40,7 @@ NFD_LOG_INIT("Forwarder");
 std::stringstream buf1,buf2;
 //char localhopPacket;
 std::chrono::duration<double> totalPitLookup;
-
+std::chrono::duration<double> totalFibLookup;
 
 
 static Name
@@ -221,9 +221,20 @@ NFD_LOG_DEBUG("wowmiss" << (buf3.str())[1] );
     return;
   }
 
+  
+  auto start1 = std::chrono::high_resolution_clock::now();
+
   // dispatch to strategy: after incoming Interest
   this->dispatchToStrategy(*pitEntry,
     [&] (fw::Strategy& strategy) { strategy.afterReceiveInterest(inFace, interest, pitEntry); });
+	
+  auto end1 = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> el1 = end1 - start1;
+  totalFibLookup = totalFibLookup + el1;
+  std::chrono::duration<double> avgFibLookup = totalFibLookup/m_counters.nInInterests;
+  NFD_LOG_INFO("FIB access time: " << avgFibLookup.count() * 1000000 << "us");
+
+
 }
 
 void
