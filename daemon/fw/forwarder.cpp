@@ -30,6 +30,7 @@
 #include "core/logger.hpp"
 #include "table/cleanup.hpp"
 #include <ndn-cxx/lp/tags.hpp>
+#include <chrono>
 
 namespace nfd {
 
@@ -38,6 +39,7 @@ NFD_LOG_INIT("Forwarder");
 // gloabal declaration for incomingInterest, CS hit and CS miss function
 std::stringstream buf1,buf2;
 //char localhopPacket;
+std::chrono::duration<double> totalPitLookup;
 
 
 
@@ -96,7 +98,8 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
 
   interest.setTag(make_shared<lp::IncomingFaceIdTag>(inFace.getId()));
   ++m_counters.nInInterests;
-
+  // following works
+  // std::cout << "accessing counter" << m_counters.nInInterests << std::endl; 
   // /localhost scope control
   bool isViolatingLocalhost = inFace.getScope() == ndn::nfd::FACE_SCOPE_NON_LOCAL &&
                               scope_prefix::LOCALHOST.isPrefixOf(interest.getName());
@@ -124,7 +127,16 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
   }
 
   // PIT insert
+  // calculate PIT look up time. Caclulate using each packet and we have a counter to
+  // count number of packets as well
+  auto start = std::chrono::high_resolution_clock::now();
   shared_ptr<pit::Entry> pitEntry = m_pit.insert(interest).first;
+  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> el = end - start;
+  totalPitLookup = totalPitLookup + el;
+  std::chrono::duration<double> avgPitLookup = totalPitLookup/m_counters.nInInterests;
+  NFD_LOG_INFO("PIT access time: " << avgPitLookup.count() * 1000000 << "us");
+    
 
   // detect duplicate Nonce in PIT entry
   int dnw = fw::findDuplicateNonce(*pitEntry, interest.getNonce(), inFace);

@@ -62,7 +62,8 @@ CsModule::formatStatusText(std::ostream& os) const
     // << ia("nMisses") << m_status.getNMisses()
     // << ia.end();
   //os << '\n';
-  os << m_status.getNHits() << "#" << m_status.getNMisses() << "#" << "\n";
+ // os << m_status.getNHits() << "#" << m_status.getNMisses() << "#" << "\n";
+  std::cout << "CsHitMiss%" <<m_status.getNHits() << "%" << m_status.getNMisses() << "%" << std::endl;
   
 
 }

@@ -33,9 +33,6 @@
 #include "forwarder-general-module.hpp"
 #include <vector>
 #include <string>
-//#ifndef MYDATA_HPP
-#include "myData.hpp"
-//#endif
 namespace nfd {
 namespace tools {
 namespace nfdc {
@@ -99,27 +96,20 @@ main(int argc, char* argv[])
 // 0 nfdc, 1 status, 2 show,
 // running this file in background , output the function to text file and then put &
 // a nfdc status show > text1 &
-//  std::cout << "hello main " << std::endl;
   auto newArg = "status";
   if (*argv[2]== *newArg) {
-  int k = 1;
-     while(k) {
-	//k = 0;
+	
+     while(1) {
 	// get the information from forwarder
-	argv[1] = "status";
-	argv[2] = "show";
+	//argv[1] = "status";
+	//argv[2] = "show";
 	nfd::tools::nfdc::main(argc,argv);
 	
 	//get te information from content store
-	argv[1]= "cs";
+/*	argv[1]= "cs";
 	argv[2]= "info"; 
 	nfd::tools::nfdc::main(argc,argv) ;
-	//extern nfd::tools::nfdc::myData hello;
-	
-	//nfd::tools::nfdc::myData mydataNew;
-	//std::cout << "printing from main: " << mydataNew.n_CsEntries << " " << mydataNew.n_PitEntries << std::endl;
-	//std::cout << "printing static: " << myData::n_CsEntries << std::endl;
-	std::this_thread::sleep_for (std::chrono::seconds(5));
+*/	std::this_thread::sleep_for (std::chrono::seconds(5));
       }
 	return 0;
   } 

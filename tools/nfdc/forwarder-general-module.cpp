@@ -26,13 +26,19 @@
 #include "forwarder-general-module.hpp"
 #include "format-helpers.hpp"
 #include "core/logger.hpp"
-
-
+#include <string>
+#include "myData.hpp"
+//NFD_LOG_INIT("Forwarder");
 namespace nfd {
 namespace tools {
 namespace nfdc {
+/*
+class myData {
+public:
+	int n_CsEntries;
 
-//NFD_LOG_INIT("ContentStore");
+};
+*/
 
 void
 ForwarderGeneralModule::fetchStatus(Controller& controller,
@@ -40,7 +46,7 @@ ForwarderGeneralModule::fetchStatus(Controller& controller,
                                     const Controller::DatasetFailCallback& onFailure,
                                     const CommandOptions& options)
 {
-//  NFD_LOG_INFO("ALEX fetch status");
+  //NFD_LOG_INFO("ALEX fetch status new");
   //std::cout << "hello"<< std::endl;
   controller.fetch<ndn::nfd::ForwarderGeneralStatusDataset>(
     [this, onSuccess] (const ForwarderStatus& result) {
@@ -106,25 +112,51 @@ ForwarderGeneralModule::formatStatusText(std::ostream& os) const
 void
 ForwarderGeneralModule::formatItemText(std::ostream& os, const ForwarderStatus& item) const
 {
-//  os << "               version=" << item.getNfdVersion() << "\n";
-//  os << "             startTime=" << text::formatTimestamp(item.getStartTimestamp()) << "\n";
-//  os << "           currentTime=" << text::formatTimestamp(item.getCurrentTimestamp()) << "\n";
-//  os << "                uptime=" << text::formatDuration(calculateUptime(item), true) << "\n";
+/*
+  os << "               version=" << item.getNfdVersion() << "\n";
+  os << "             startTime=" << text::formatTimestamp(item.getStartTimestamp()) << "\n";
+  os << "           currentTime=" << text::formatTimestamp(item.getCurrentTimestamp()) << "\n";
+  os << "                uptime=" << text::formatDuration(calculateUptime(item), true) << "\n";
 
-//  os << "      nNameTreeEntries=" << item.getNNameTreeEntries() << "\n";
-//  os << "           nFibEntries=" << item.getNFibEntries() << "\n"; // needed
-//  os << "           nPitEntries=" << item.getNPitEntries() << "\n"; //needed
-//  os << "  nMeasurementsEntries=" << item.getNMeasurementsEntries() << "\n";
-//  os << "            nCsEntries=" << item.getNCsEntries() << "\n"; // needed
+  os << "      nNameTreeEntries=" << item.getNNameTreeEntries() << "\n";
+  os << "           nFibEntries=" << item.getNFibEntries() << "\n"; // needed
+  os << "           nPitEntries=" << item.getNPitEntries() << "\n"; //needed
+  os << "  nMeasurementsEntries=" << item.getNMeasurementsEntries() << "\n";
+  os << "            nCsEntries=" << item.getNCsEntries() << "\n"; // needed
 
-//  os << "          nInInterests=" << item.getNInInterests() << "\n"; //needed 
- // os << "         nOutInterests=" << item.getNOutInterests() << "\n"; // needed
-//  os << "               nInData=" << item.getNInData() << "\n"; // needed
- // os << "              nOutData=" << item.getNOutData() << "\n"; // needed
-//  os << "              nInNacks=" << item.getNInNacks() << "\n";
-//  os << "             nOutNacks=" << item.getNOutNacks() << "\n";
+ os << "          nInInterests=" << item.getNInInterests() << "\n"; //needed 
+ os << "         nOutInterests=" << item.getNOutInterests() << "\n"; // needed
+  os << "               nInData=" << item.getNInData() << "\n"; // needed
+ os << "              nOutData=" << item.getNOutData() << "\n"; // needed
+  os << "              nInNacks=" << item.getNInNacks() << "\n";
+  os << "             nOutNacks=" << item.getNOutNacks() << "\n";
+*/
 
-os << item.getNCsEntries() <<"#" << item.getNPitEntries() << "#" << item.getNFibEntries() << "#"; 
+//nfd::tools::nfdc::myData mydataNew; //declared globally in header file
+
+// std::stringstream buf;
+// buf << item.getNCsEntries();
+//std::cout << "testing string stream: " << std::stoi(buf.str()) << std::endl ; 
+//mydataNew.n_CsEntries = std::stoi(buf.str());
+//myData::n_CsEntries = std::stoi(buf.str());
+//std::cout << "value from class CsEntries: " << myData::n_CsEntries << std::endl;
+
+//buf.str("");
+/*
+buf << item.getNPitEntries();
+std::cout << "testing string stream: " << std::stoi(buf.str()) << std::endl ; 
+mydataNew.n_PitEntries = std::stoi(buf.str());
+std::cout << "value from class PitEntries: " << mydataNew.n_PitEntries << std::endl;
+*/
+
+
+
+
+//os <<  item.getNCsEntries() <<"#";
+//os << item.getNPitEntries() << "#"; 
+//os << item.getNFibEntries() << "#"; 
+std::cout << "Table_Entries%" << item.getNCsEntries() <<"%" << item.getNPitEntries() << "%" << item.getNFibEntries() << "%" << std::endl; 
+//NFD_LOG_INFO("testing logs");
 }
 
 } // namespace nfdc
