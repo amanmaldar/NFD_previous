@@ -157,7 +157,7 @@ std::cout << "value from class PitEntries: " << mydataNew.n_PitEntries << std::e
 //os << item.getNFibEntries() << "#"; 
 	// following works
 // std::cout << "Table_Entries%" << item.getNCsEntries() <<"%" << item.getNPitEntries() << "%" << item.getNFibEntries() << "%" << std::endl; 
-std::cout << "fibLookupTime%" << item.getfibLookupTime() <<"%" << std::endl; 
+//std::cout << "fibLookupTime%" << item.getfibLookupTime() <<"%" << std::endl; 
 
 		
 	//NFD_LOG_INFO("testing logs");
