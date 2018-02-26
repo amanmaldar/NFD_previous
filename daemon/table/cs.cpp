@@ -159,7 +159,7 @@ Cs::find(const Interest& interest,
     auto mid = std::chrono::high_resolution_clock::now(); 
     std::chrono::duration<double> el = mid - start;
     if (interestPrefix == 'n' && nlsrPacket != 'R')
-    	NFD_LOG_INFO("CsLookUpTime: MISS: " << el.count() * 1000000 << " uS " << interest.getName());
+    	NFD_LOG_INFO("CsLookUpTime: MISS:# " << el.count() * 1000000 << "#uS " << interest.getName());
       
     // NFD_LOG_DEBUG("  no-match"); //remove comment
     missCallback(interest);
@@ -171,7 +171,7 @@ Cs::find(const Interest& interest,
   auto end =std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = end - start;
   if (interestPrefix == 'n' && nlsrPacket != 'R')
-  	NFD_LOG_INFO("CsLookUpTime: HITT: " << elapsed.count() * 1000000 << " uS " << interest.getName());
+  	NFD_LOG_INFO("CsLookUpTime: HITT:#" << elapsed.count() * 1000000 << "#uS " << interest.getName());
       
   
   // NFD_LOG_DEBUG("  matching " << match->getName()); //remove comment
