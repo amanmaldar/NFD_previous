@@ -155,8 +155,12 @@ std::cout << "value from class PitEntries: " << mydataNew.n_PitEntries << std::e
 //os <<  item.getNCsEntries() <<"#";
 //os << item.getNPitEntries() << "#"; 
 //os << item.getNFibEntries() << "#"; 
-std::cout << "Table_Entries%" << item.getNCsEntries() <<"%" << item.getNPitEntries() << "%" << item.getNFibEntries() << "%" << std::endl; 
-//NFD_LOG_INFO("testing logs");
+	// following works
+// std::cout << "Table_Entries%" << item.getNCsEntries() <<"%" << item.getNPitEntries() << "%" << item.getNFibEntries() << "%" << std::endl; 
+std::cout << "fibLookupTime%" << item.getfibLookupTime() <<"%" << std::endl; 
+
+		
+	//NFD_LOG_INFO("testing logs");
 }
 
 } // namespace nfdc
