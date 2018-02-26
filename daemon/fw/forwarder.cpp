@@ -127,15 +127,16 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
   }
 
   // PIT insert
-  // calculate PIT look up time. Caclulate using each packet and we have a counter to
-  // count number of packets as well
+  // calculate PIT look up time. Caclulate using each packet and we have a counter to count number of packets as well
+  // avg pit lookup should only be calculated for interest name. That why include interest name in print statement 
+ // the above assumption is wrong
   auto start = std::chrono::high_resolution_clock::now();
   shared_ptr<pit::Entry> pitEntry = m_pit.insert(interest).first;
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> el = end - start;
   totalPitLookup = totalPitLookup + el;
   std::chrono::duration<double> avgPitLookup = totalPitLookup/m_counters.nInInterests;
-  NFD_LOG_INFO("pitAccessLatency#" << avgPitLookup.count() * 1000000 << "#us");
+  NFD_LOG_INFO("pitAccessLatency#" << avgPitLookup.count() * 1000000 << "#us" << interest.getName());
     
 
   // detect duplicate Nonce in PIT entry
