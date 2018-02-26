@@ -233,6 +233,7 @@ NFD_LOG_DEBUG("wowmiss" << (buf3.str())[1] );
   std::chrono::duration<double> el1 = end1 - start1;
   totalFibLookup = totalFibLookup + el1;
   std::chrono::duration<double> avgFibLookup = totalFibLookup/m_counters.nInInterests;
+  m_counters.fibLookupTime = avgFibLookup; 	//added a new counter
   NFD_LOG_INFO("fibAccessLatency#" << avgFibLookup.count() * 1000000 << "#us");
 
 
