@@ -44,7 +44,7 @@ public:
 
   PacketCounter nCsHits;
   PacketCounter nCsMisses;
-  static auto fibLookupTime = 0;   //added a new counter
+  //static auto fibLookupTime = 0;   //added a new counter
 };
 
 } // namespace nfd
