@@ -135,7 +135,7 @@ Forwarder::onIncomingInterest(Face& inFace, const Interest& interest)
   std::chrono::duration<double> el = end - start;
   totalPitLookup = totalPitLookup + el;
   std::chrono::duration<double> avgPitLookup = totalPitLookup/m_counters.nInInterests;
-  NFD_LOG_INFO("PIT access time: " << avgPitLookup.count() * 1000000 << "us");
+  NFD_LOG_INFO("pitAccessLatency#" << avgPitLookup.count() * 1000000 << "#us");
     
 
   // detect duplicate Nonce in PIT entry
@@ -232,7 +232,7 @@ NFD_LOG_DEBUG("wowmiss" << (buf3.str())[1] );
   std::chrono::duration<double> el1 = end1 - start1;
   totalFibLookup = totalFibLookup + el1;
   std::chrono::duration<double> avgFibLookup = totalFibLookup/m_counters.nInInterests;
-  NFD_LOG_INFO("FIB access time: " << avgFibLookup.count() * 1000000 << "us");
+  NFD_LOG_INFO("fibAccessLatency#" << avgFibLookup.count() * 1000000 << "#us");
 
 
 }
